@@ -1,0 +1,74 @@
+<Project>
+
+  <PropertyGroup Label="common build settings">
+    <LangVersion>latest</LangVersion>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+    <ArtifactsPath>$(MSBuildThisFileDirectory).artifacts</ArtifactsPath>
+  </PropertyGroup>
+
+  <PropertyGroup Label="publishing settings">
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <EmbedAllSources>true</EmbedAllSources>
+    <DebugType>embedded</DebugType>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <IncludeSource>true</IncludeSource>
+    <Deterministic>true</Deterministic>
+    <SymbolPackageFormat>symbols.nupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <RepositoryUrl>https://github.com/kagekirin/Unity.Mathematics.NuGet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <EnableSourceLink>true</EnableSourceLink>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(CIRCLECI)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <EnableSourceLink>true</EnableSourceLink>
+  </PropertyGroup>
+
+  <PropertyGroup Label="common build metadata">
+    <PackageProjectUrl>https://github.com/kagekirin/Unity.Mathematics.NuGet</PackageProjectUrl>
+    <Copyright>Copyright © $(Owners) $([System.DateTime]::Now.Year)</Copyright>
+    <Authors>Unity Technologies</Authors>
+    <Owners>Unity Technologies</Owners>
+    <Company>Unity Technologies</Company>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>CHANGELOG.md</PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup Label="packaged files">
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\"/>
+    <None Include="$(MSBuildThisFileDirectory)LICENSE.md" Pack="true" PackagePath="\"/>
+    <None Include="$(MSBuildThisFileDirectory)CHANGELOG.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+  <ItemGroup Label="package dependencies">
+    <!-- enable reproducible builds -->
+    <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.25" PrivateAssets="All"/>
+    <!-- enable source link -->
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+    <!-- enable automatic versioning -->
+    <PackageReference Include="MinVer" Version="6.0.0" PrivateAssets="All"/>
+  </ItemGroup>
+
+  <PropertyGroup Label="MinVer configuration">
+    <MinVerTagPrefix></MinVerTagPrefix>
+  </PropertyGroup>
+
+  <ItemGroup Label="source link settings">
+    <SourceLinkGitHubHost Include="github.com" ContentUrl="https://raw.github.com"/>
+  </ItemGroup>
+
+</Project>
