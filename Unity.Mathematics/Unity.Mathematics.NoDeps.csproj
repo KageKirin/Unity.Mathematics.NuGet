@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>Unity.Mathematics.NoDeps</PackageId>
+    <Title>Unity.Mathematics.NoDeps</Title>
+    <Description>NuGet packed from Unity.Mathematics UPM package without dependency on UnityEngine.dll</Description>
+    <PackageTags>unity3d;mathematics</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="PropertyAttributes.cs" />
+    <Compile Remove="math_unity_conversion.cs" />
+  </ItemGroup>
+
+</Project>
