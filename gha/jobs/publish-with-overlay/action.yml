@@ -1,0 +1,253 @@
+name: .NET Checkout, Build, Pack & Publish with overlay
+description: >
+  Job action performing the following:
+  * checkout repo
+  * checkout repo for Unity.Mathematics
+  * overlay (copy) project files to Unity.Mathematics
+  * dotnet-build Unity.Mathematics
+  * dotnet-pack Unity.Mathematics
+  * dotnet-publish
+
+inputs:
+  path:
+    description: path from where to run the actions
+    required: false
+    default: ${{github.workspace}}
+  configurations:
+    description: >
+      configuration(s) to build for (Debug, Release, ...).
+      empty string (default) defers to project/solution defaults.
+      whitespace separated list.
+    required: false
+    default: ''
+  frameworks:
+    description: >
+      framework(s) to build for (net8.0, netstandard2.1, ...).
+      empty string (default) defers to project/solution defaults.
+      whitespace separated list.
+    required: false
+    default: ''
+  projects:
+    description: >
+      project(s) to build
+      empty string (default) defers to project defaults
+      whitespace separated list. can use glob pattern.
+      empty string (default) defers to solution.
+    required: false
+    default: ''
+  registry:
+    description: >-
+      NuGet registry to publish on.
+      Defaults to **GitHub NuGet**.
+    required: false
+    default: https://nuget.pkg.github.com/${{github.repository_owner}}/index.json
+  nuget-token:
+    description: >-
+      Authorization token for the above NuGet registry.
+      GitHub (Enterprise): requires 'packages:write' permissions.
+    required: false
+    default: ${{github.token}}
+
+  restore-options:
+    description: >
+      supplementary command line options forwarded to `dotnet restore`
+      whitespace separated list.
+    required: false
+    default: ''
+  build-options:
+    description: >
+      supplementary command line options forwarded to `dotnet build`
+      whitespace separated list.
+    required: false
+    default: ''
+  pack-options:
+    description: >
+      supplementary command line options forwarded to `dotnet pack`
+      whitespace separated list.
+    required: false
+    default: ''
+  publish-options:
+    description: >
+      supplementary command line options forwarded to `dotnet nuget push`
+      whitespace separated list.
+    required: false
+    default: ''
+  filter-packages:
+    description: >
+      optional set of regular expressions to filter out packages to not publish.
+      whitelist, i.e. only matching packages will be published.
+      empty string (default) is equivalent to /.*/ (match all)
+    required: false
+    default: ''
+
+  ## inputs from actions/checkout@v4
+  repository:
+    description: Repository name with owner. For example, actions/checkout
+    default: ${{github.repository}}
+  ref:
+    description: >
+      The branch, tag or SHA to checkout. When checking out the repository that
+      triggered a workflow, this defaults to the reference or SHA for that
+      event.  Otherwise, uses the default branch.
+    required: false
+    default: ${{github.ref_name}}
+  token:
+    description: >
+      Personal access token (PAT) used to fetch the repository. The PAT is configured
+      with the local git config, which enables your scripts to run authenticated git
+      commands. The post-job step removes the PAT.
+
+
+      We recommend using a service account with the least permissions necessary.
+      Also when generating a new PAT, select the least scopes necessary.
+
+
+      [Learn more about creating and using encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
+    default: ${{github.token}}
+  ssh-key:
+    description: >
+      SSH key used to fetch the repository. The SSH key is configured with the local
+      git config, which enables your scripts to run authenticated git commands.
+      The post-job step removes the SSH key.
+
+
+      We recommend using a service account with the least permissions necessary.
+
+
+      [Learn more about creating and using
+      encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
+  ssh-known-hosts:
+    description: >
+      Known hosts in addition to the user and global host key database. The public
+      SSH keys for a host may be obtained using the utility `ssh-keyscan`. For example,
+      `ssh-keyscan github.com`. The public key for github.com is always implicitly
+      added.
+  ssh-strict:
+    description: >
+      Whether to perform strict host key checking. When true, adds the options `StrictHostKeyChecking=yes`
+      and `CheckHostIP=no` to the SSH command line. Use the input `ssh-known-hosts`
+      to
+      configure additional hosts.
+    default: true
+  ssh-user:
+    description: >
+      The user to use when connecting to the remote SSH host. By default 'git' is
+      used.
+    default: git
+  persist-credentials:
+    description: Whether to configure the token or SSH key with the local git config
+    default: true
+  clean:
+    description: Whether to execute `git clean -ffdx && git reset --hard HEAD` before
+      fetching
+    default: true
+  filter:
+    description: >
+      Partially clone against a given filter.
+      Overrides sparse-checkout if set.
+    default:
+  sparse-checkout:
+    description: >
+      Do a sparse checkout on given patterns.
+      Each pattern should be separated with new lines.
+    default:
+  sparse-checkout-cone-mode:
+    description: >
+      Specifies whether to use cone-mode when doing a sparse checkout.
+    default: true
+  fetch-depth:
+    description: Number of commits to fetch. 0 indicates all history for all branches
+      and tags.
+    default: 1
+  show-progress:
+    description: Whether to show progress status output when fetching.
+    default: true
+  lfs:
+    description: Whether to download Git-LFS files
+    default: false
+  submodules:
+    description: >
+      Whether to checkout submodules: `true` to checkout submodules or `recursive`
+      to
+      recursively checkout submodules.
+
+
+      When the `ssh-key` input is not provided, SSH URLs beginning with `git@github.com:`
+      are
+      converted to HTTPS.
+    default: false
+  set-safe-directory:
+    description: Add repository path as safe.directory for Git global config by running
+      `git config --global --add safe.directory <path>`
+    default: true
+  github-server-url:
+    description: The base URL for the GitHub instance that you are trying to clone
+      from, will use environment defaults to fetch from the same instance that the
+      workflow is running from unless specified. Example URLs are https://github.com
+      or https://my-ghes-server.example.com
+    required: true
+    default: ${{github.server_url}}
+
+  nuget-cache:
+    description: >
+      path(s) to cache for nuget packages.
+      empty (default): no cache
+    required: false
+    default: ''
+  build-cache:
+    description: >
+      path(s) to cache for build artifacts.
+      empty (default): no cache
+    required: false
+    default: ''
+
+
+runs:
+  using: composite
+  steps:
+  - id: pack
+    name: Checkout, build and pack nupkgs
+    uses: kagekirin/Unity.Mathematics.NuGet/gha/jobs/pack-with-overlay@main
+    with:
+      repository: ${{inputs.repository}}
+      ref: ${{inputs.ref}}
+      token: ${{inputs.token}}
+      ssh-key: ${{inputs.ssh-key}}
+      ssh-known-hosts: ${{inputs.ssh-known-hosts}}
+      ssh-strict: ${{inputs.ssh-strict}}
+      ssh-user: ${{inputs.ssh-user}}
+      persist-credentials: ${{inputs.persist-credentials}}
+      path: ${{inputs.path}}
+      clean: ${{inputs.clean}}
+      filter: ${{inputs.filter}}
+      sparse-checkout: ${{inputs.sparse-checkout}}
+      sparse-checkout-cone-mode: ${{inputs.sparse-checkout-cone-mode}}
+      fetch-depth: ${{inputs.fetch-depth}}
+      fetch-tags: ${{inputs.fetch-tags}}
+      show-progress: ${{inputs.show-progress}}
+      lfs: ${{inputs.lfs}}
+      submodules: ${{inputs.submodules}}
+      set-safe-directory: ${{inputs.set-safe-directory}}
+      github-server-url: ${{inputs.github-server-url}}
+      projects: ${{inputs.projects}}
+      configurations: ${{inputs.configurations}}
+      frameworks: ${{inputs.frameworks}}
+
+      restore-options: ${{inputs.restore-options}}
+      build-options: ${{inputs.build-options}}
+      pack-options: ${{inputs.pack-options}}
+      filter-packages: ${{inputs.filter-packages}}
+
+      nuget-cache: ${{inputs.nuget-cache}}
+      build-cache: ${{inputs.build-cache}}
+
+
+  - id: publish
+    name: Publish nupkgs
+    uses: kagekirin/gha-py-toolbox/actions/dotnet/publish@main
+    with:
+      path: ${{inputs.path}}/com.unity.mathematics
+      packages: ${{steps.pack.outputs.packages}}
+      registry: ${{inputs.registry}}
+      token: ${{inputs.nuget-token}}
+      options: ${{inputs.publish-options}}
