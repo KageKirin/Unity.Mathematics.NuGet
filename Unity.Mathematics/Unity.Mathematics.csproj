@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>Unity.Mathematics</PackageId>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+
+  <ItemGroup Label="Unity">
+    <Reference Include="UnityEngine">
+      <HintPath>$(UNITY_ASSEMBLY_PATH)\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

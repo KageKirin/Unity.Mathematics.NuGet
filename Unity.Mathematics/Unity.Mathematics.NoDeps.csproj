@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>Unity.Mathematics.NoDeps</PackageId>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="PropertyAttributes.cs" />
+    <Compile Remove="math_unity_conversion.cs" />
+  </ItemGroup>
+
+</Project>

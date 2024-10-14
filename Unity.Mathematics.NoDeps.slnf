@@ -1,0 +1,8 @@
+{
+  "solution": {
+    "path": "Unity.Mathematics.sln",
+    "projects": [
+      "Unity.Mathematics\\Unity.Mathematics.NoDeps.csproj"
+    ]
+  }
+}

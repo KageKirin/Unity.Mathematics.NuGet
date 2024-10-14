@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Mathematics", "Unity.Mathematics\Unity.Mathematics.csproj", "{06E19A33-15CD-4920-B9F2-569196BC8849}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Mathematics.NoDeps", "Unity.Mathematics\Unity.Mathematics.NoDeps.csproj", "{C6D10629-FAF2-4FC0-AF35-3DA3BB0A59E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Mathematics.Editor", "Unity.Mathematics.Editor\Unity.Mathematics.Editor.csproj", "{A646EF23-BDCE-4CDF-89D1-BB6A5EACBB29}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{06E19A33-15CD-4920-B9F2-569196BC8849}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06E19A33-15CD-4920-B9F2-569196BC8849}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06E19A33-15CD-4920-B9F2-569196BC8849}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06E19A33-15CD-4920-B9F2-569196BC8849}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6D10629-FAF2-4FC0-AF35-3DA3BB0A59E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6D10629-FAF2-4FC0-AF35-3DA3BB0A59E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6D10629-FAF2-4FC0-AF35-3DA3BB0A59E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6D10629-FAF2-4FC0-AF35-3DA3BB0A59E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A646EF23-BDCE-4CDF-89D1-BB6A5EACBB29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A646EF23-BDCE-4CDF-89D1-BB6A5EACBB29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A646EF23-BDCE-4CDF-89D1-BB6A5EACBB29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A646EF23-BDCE-4CDF-89D1-BB6A5EACBB29}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
