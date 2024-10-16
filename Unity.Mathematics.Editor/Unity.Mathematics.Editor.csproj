@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>Unity.Mathematics.Editor</PackageId>
+    <PackageId>KageKirin.Unity.Mathematics.Editor</PackageId>
     <Title>Unity.Mathematics.Editor</Title>
     <Description>NuGet packed from Unity.Mathematics UPM package with a dependency on UnityEngine.dll and UnityEditor.dll</Description>
     <PackageTags>unity3d;mathematics</PackageTags>
