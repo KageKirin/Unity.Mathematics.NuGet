@@ -1,0 +1,116 @@
+name: build-branch
+
+on:
+  push:
+    branches-ignore:
+      - 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    strategy:
+      matrix:
+        configurations: [Debug, Release]
+        frameworks: [netstandard2.1]
+        projects: [Unity.Mathematics.sln]
+      fail-fast: false
+    steps:
+    - uses: kagekirin/gha-py-toolbox/macros/util/setup-system@main
+      with:
+        token: ${{secrets.GITHUB_TOKEN}}
+        systems: |
+          python
+          dotnet
+    - uses: kagekirin/gha-py-toolbox/actions/ssh/add-public-host-key@main
+      with:
+        hostname: github.com
+    - uses: kagekirin/gha-py-toolbox/actions/gclient/setup@main
+      with:
+        path: ../depot_tools
+    - id: install-unity
+      uses: kagekirin/gha-py-toolbox/actions/unity/direct-setup@main
+      with:
+        version: ${{ vars.UNITY_VERSION }}
+        changeset: ${{ vars.UNITY_CHANGESET }}
+        components: ${{ vars.UNITY_COMPONENTS }}
+        unity-path: ../unity
+
+    - shell: bash
+      env:
+        UNITY_PATH: ${{steps.install-unity.outputs.editor-path}}
+        UNITY_ASSEMBLY_PATH: ${{steps.install-unity.outputs.editor-path}}/Data/Managed
+      run: |
+        echo $UNITY_PATH
+        ls $UNITY_PATH
+        echo =======
+        echo $UNITY_ASSEMBLY_PATH
+        ls $UNITY_ASSEMBLY_PATH
+
+
+    - uses: kagekirin/Unity.Mathematics.NuGet/gha/jobs/build-with-overlay@main
+      with:
+        lfs: true
+        token: ${{ secrets.GH_READONLY_TOKEN }}
+        persist-credentials: true
+        configurations: ${{ matrix.configurations }}
+        frameworks: ${{ matrix.frameworks }}
+        projects: ${{ matrix.projects }}
+        nuget-cache: ${{github.workspace}}/.packages
+        build-cache: ${{github.workspace}}/.artifacts
+        restore-options: ''
+        build-options: ''
+      env:
+        GH_NUGET_USER: ${{ github.actor }}
+        GH_NUGET_TOKEN: ${{ secrets.GH_PUBLISH_TOKEN }}
+        UNITY_ASSEMBLY_PATH: ${{steps.install-unity.outputs.editor-path}}/Data/Managed
+
+
+  pack-nuget:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    needs: build
+    steps:
+    - uses: kagekirin/gha-py-toolbox/macros/util/setup-system@main
+      with:
+        token: ${{secrets.GITHUB_TOKEN}}
+        systems: |
+          python
+          dotnet
+    - uses: kagekirin/gha-py-toolbox/actions/ssh/add-public-host-key@main
+      with:
+        hostname: github.com
+    - uses: kagekirin/gha-py-toolbox/actions/gclient/setup@main
+      with:
+        path: ../depot_tools
+    - id: install-unity
+      uses: kagekirin/gha-py-toolbox/actions/unity/direct-setup@main
+      with:
+        version: ${{ vars.UNITY_VERSION }}
+        changeset: ${{ vars.UNITY_CHANGESET }}
+        components: ${{ vars.UNITY_COMPONENTS }}
+        unity-path: ../unity
+
+    - uses: kagekirin/Unity.Mathematics.NuGet/gha/jobs/pack-with-overlay@main
+      with:
+        lfs: true
+        token: ${{ secrets.GH_READONLY_TOKEN }}
+        persist-credentials: true
+        configurations: Release
+        frameworks: netstandard2.1
+        projects: Unity.Mathematics.sln
+        nuget-cache: ${{github.workspace}}/.packages
+        build-cache: ${{github.workspace}}/.artifacts
+        restore-options: ''
+        build-options: ''
+        pack-options: ''
+        filter-packages: |-
+          ^(\.artifacts).*$
+      env:
+        GH_NUGET_USER: ${{ github.actor }}
+        GH_NUGET_TOKEN: ${{ secrets.GH_PUBLISH_TOKEN }}
+        UNITY_ASSEMBLY_PATH: ${{steps.install-unity.outputs.editor-path}}/Data/Managed
