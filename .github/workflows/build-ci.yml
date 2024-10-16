@@ -104,3 +104,4 @@ jobs:
         GH_NUGET_USER: ${{ github.actor }}
         GH_NUGET_TOKEN: ${{ secrets.GH_PUBLISH_TOKEN }}
         UNITY_ASSEMBLY_PATH: ${{steps.install-unity.outputs.editor-path}}/Data/Managed
+        PACKAGE_PREFIX: ${{ github.repository_owner }}.
