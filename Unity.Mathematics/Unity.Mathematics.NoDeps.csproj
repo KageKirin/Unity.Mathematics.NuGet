@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>Unity.Mathematics.NoDeps</PackageId>
+    <PackageId>KageKirin.Unity.Mathematics.NoDeps</PackageId>
     <Title>Unity.Mathematics.NoDeps</Title>
     <Description>NuGet packed from Unity.Mathematics UPM package without dependency on UnityEngine.dll</Description>
     <PackageTags>unity3d;mathematics</PackageTags>
