@@ -1,16 +1,17 @@
 UNITY_ASSEMBLY_PATH?="/Applications/Unity/Hub/Editor/2022.3.47f1/Unity.app/Contents/Managed/"
+PACKAGE_PREFIX?="KageKirin."
 
 format: $(shell fd --max-depth=2 csproj$)
 	dos2unix -q -r $^
 
 restore: prepare
-	cd com.unity.mathematics; UNITY_ASSEMBLY_PATH=$(UNITY_ASSEMBLY_PATH) dotnet build -tl
+	cd com.unity.mathematics; UNITY_ASSEMBLY_PATH=$(UNITY_ASSEMBLY_PATH) PACKAGE_PREFIX=$(PACKAGE_PREFIX) dotnet build -tl
 
 build: restore
-	cd com.unity.mathematics; UNITY_ASSEMBLY_PATH=$(UNITY_ASSEMBLY_PATH) dotnet build -tl
+	cd com.unity.mathematics; UNITY_ASSEMBLY_PATH=$(UNITY_ASSEMBLY_PATH) PACKAGE_PREFIX=$(PACKAGE_PREFIX) dotnet build -tl
 
 pack: build
-	cd com.unity.mathematics; UNITY_ASSEMBLY_PATH=$(UNITY_ASSEMBLY_PATH) dotnet pack -tl
+	cd com.unity.mathematics; UNITY_ASSEMBLY_PATH=$(UNITY_ASSEMBLY_PATH) PACKAGE_PREFIX=$(PACKAGE_PREFIX) dotnet pack -tl
 	fd nupkg$$ -- com.unity.mathematics/.artifacts
 
 prepare:	\
