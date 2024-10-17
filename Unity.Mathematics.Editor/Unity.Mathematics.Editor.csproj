@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <AssemblyName>Unity.Mathematics.Editor</AssemblyName>
     <PackageId>$(PACKAGE_PREFIX)Unity.Mathematics.Editor</PackageId>
     <Title>Unity.Mathematics.Editor</Title>
     <Description>NuGet packed from Unity.Mathematics UPM package with a dependency on UnityEngine.dll and UnityEditor.dll</Description>
