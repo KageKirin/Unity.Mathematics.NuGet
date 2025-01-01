@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        source: [github, nuget]
+        source: [github, nuget, nuget2]
         prefix: ['', '${{ github.repository_owner }}.']
         include:
           - source: github
@@ -25,6 +25,15 @@ jobs:
             registry: https://api.nuget.org/v3/index.json
             username: ${{ github.repository_owner }}
             token: NUGET_ORG_TOKEN
+          - source: nuget2
+            registry: https://api.nuget.org/v3/index.json
+            username: ${{ github.repository_owner }}
+            token: NUGET_ORG_TOKEN_2
+        exclude:
+          - source: nuget
+            prefix: ''
+          - source: nuget2
+            prefix: '${{ github.repository_owner }}.'
     steps:
     - uses: kagekirin/gha-py-toolbox/macros/util/setup-system@main
       with:

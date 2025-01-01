@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <AssemblyName>Unity.Mathematics</AssemblyName>
-    <PackageId>$(PACKAGE_PREFIX)Unity.Mathematics</PackageId>
+    <PackageId>$(PACKAGE_PREFIX)UnityMathematics</PackageId>
     <Title>Unity.Mathematics</Title>
     <Description>NuGet packed from Unity.Mathematics UPM package with a dependency on UnityEngine.dll</Description>
     <PackageTags>unity3d;mathematics</PackageTags>
