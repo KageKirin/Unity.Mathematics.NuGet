@@ -14,29 +14,29 @@ that could also be distributed as Unity packages containing precompiled assembli
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Unity.Mathematics.NoDeps" Version="1.3.2" PrivateAssets="All"/>
+  <PackageReference Include="UnityMathematics.NoDeps" Version="1.3.2" PrivateAssets="All"/>
 </ItemGroup>
 ```
 
 ```bash
-dotnet add package Unity.Mathematics.NoDeps --version 1.3.2
+dotnet add package UnityMathematics.NoDeps --version 1.3.2
 ```
 
 ### Classlib distributed as Unity package and consumed by Unity only
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Unity.Mathematics" Version="1.3.2" PrivateAssets="All"/>
+  <PackageReference Include="UnityMathematics" Version="1.3.2" PrivateAssets="All"/>
 </ItemGroup>
 ```
 
 ```bash
-dotnet add package Unity.Mathematics --version 1.3.2
+dotnet add package UnityMathematics --version 1.3.2
 ```
 
 ## Projects and NuGet packages
 
-### Unity.Mathematics
+### UnityMathematics
 
 This project and NuGet package is the verbatim Unity.Mathematics package
 which has a dependency on the UnityEngine.dll.
@@ -45,7 +45,7 @@ As such, projects referencing this package _might_ (untested atm) also require
 to provide a PathHint to the aforementioned assembly.
 (See below for more information about this process).
 
-### Unity.Mathematics.Editor
+### UnityMathematics.Editor
 
 This project and NuGet package is the verbatim Unity.Mathematics.Editor package
 which has a dependency on both the UnityEngine.dll and the UnityEditor.dll.
@@ -56,9 +56,9 @@ In case classlibs still want to reference this package, they will also require
 to provide PathHints to the aforementioned assemblies.
 (See below for more information about this process).
 
-### Unity.Mathematics.NoDeps
+### UnityMathematics.NoDeps
 
-This project and NuGet package is a slightly Unity.Mathematics package
+This project and NuGet package is a slightly modified Unity.Mathematics package
 that **does not** have any dependency on UnityEngine.dll.
 
 As such, it is the preferred dependency for regular .NET classlib and program projects.
@@ -104,7 +104,7 @@ the assemblies of Unity.Mathematics itself, but rather mark it as dependency.
 For NuGettier, you need to add this to its global `.netconfig`:
 
 ```toml
-[package "unity.mathematics.*"] # '.*' is to take in the regex sense, and lowercase is b/c no case sensitivity
+[package "unitymathematics.*"] # '.*' is to take in the regex sense, and lowercase is b/c case insensitivity
 name = "com.unity.mathematics"
 version = "^(?<major>0|[1-9]\\d*)\\.(?<minor>0|[1-9]\\d*)\\.(?<patch>0|[1-9]\\d*)" #only keep major.minor.patch, drop the rest
 ignore = false  #do not ignore, as in include-in-dependencies
