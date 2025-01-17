@@ -1,4 +1,4 @@
-# Unity.Mathematics for NuGet
+# ![Custom Unity.Mathematics logo](./Icon.png) Unity.Mathematics for NuGet
 
 This repo consists of build scripts and .NET projects
 that work on the [official Unity.Mathematics repo](https://github.com/Unity-Technologies/Unity.Mathematics),
