@@ -214,6 +214,8 @@ runs:
         Unity.Mathematics/Unity.Mathematics.csproj
         Unity.Mathematics/Unity.Mathematics.NoDeps.csproj
         Unity.Mathematics.Editor/Unity.Mathematics.Editor.csproj
+        Icon.png
+        Logo.png
 
   - id: verify-unity-assembly-path-env-var
     shell: bash

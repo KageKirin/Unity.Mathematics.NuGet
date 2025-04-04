@@ -6,6 +6,8 @@
     <Title>Unity.Mathematics.NoDeps</Title>
     <Description>NuGet packed from Unity.Mathematics UPM package without dependency on UnityEngine.dll</Description>
     <PackageTags>unity3d;mathematics</PackageTags>
+    <PackageIcon>Icon.png</PackageIcon>
+    <PackageIconUrl>https://raw.github.com/KageKirin/Unity.Mathematics.NuGet/Icon.png</PackageIconUrl>
   </PropertyGroup>
 
   <PropertyGroup>
