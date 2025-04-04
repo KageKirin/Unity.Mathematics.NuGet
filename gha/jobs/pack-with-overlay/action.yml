@@ -12,6 +12,10 @@ inputs:
     description: path from where to run the actions
     required: false
     default: ${{github.workspace}}
+  repository-path:
+    description: path from where to checkout the root repository, relative to inputs.path
+    required: false
+    default: repo
   configurations:
     description: >
       configuration(s) to build for (Debug, Release, ...).
@@ -193,6 +197,8 @@ runs:
   steps:
   - uses: kagekirin/Unity.Mathematics.NuGet/gha/jobs/build-with-overlay@main
     with:
+      path: ${{inputs.path}}
+      repository-path: ${{inputs.repository-path}}
       repository: ${{inputs.repository}}
       ref: ${{inputs.ref}}
       token: ${{inputs.token}}
@@ -201,7 +207,6 @@ runs:
       ssh-strict: ${{inputs.ssh-strict}}
       ssh-user: ${{inputs.ssh-user}}
       persist-credentials: ${{inputs.persist-credentials}}
-      path: ${{inputs.path}}
       clean: ${{inputs.clean}}
       filter: ${{inputs.filter}}
       sparse-checkout: ${{inputs.sparse-checkout}}
@@ -227,7 +232,7 @@ runs:
   - id: pack
     uses: kagekirin/gha-py-toolbox/actions/dotnet/pack@main
     with:
-      path: ${{inputs.path}}/com.unity.mathematics
+      path: ${{inputs.path}}/${{inputs.repository-path}}/com.unity.mathematics
       projects: ${{inputs.projects}}
       configurations: ${{inputs.configurations}}
       frameworks: ${{inputs.frameworks}}
